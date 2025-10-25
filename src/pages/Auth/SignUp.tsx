@@ -38,7 +38,7 @@ const SignUp = () => {
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography component="h1" variant="h5">Registrarse</Typography>
         <Box component="form" onSubmit={handleSignUp} sx={{ mt: 1 }}>
-          <TextField margin="normal" required fullWidth id="email" label="Correo Electrónico" name="email" autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} />
+          <TextField margin="normal" required fullWidth id="email" label="Correo Electrónico" name="email" autoComplete="email"  value={email} onChange={(e) => setEmail(e.target.value)} />
           <TextField margin="normal" required fullWidth name="password" label="Contraseña" type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <FormControl component="fieldset" sx={{ mt: 2 }}>
             <FormLabel component="legend">Soy un...</FormLabel>

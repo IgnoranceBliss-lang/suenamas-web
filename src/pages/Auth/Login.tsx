@@ -46,7 +46,7 @@ const Login = () => {
             label="Correo Electrónico" 
             name="email" 
             autoComplete="email" 
-            autoFocus 
+             
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
           />
