@@ -16,7 +16,7 @@ export const invitePatient = onCall(async (request) => {
   if (request.auth?.token.role !== "clinician") {
     throw new HttpsError(
       "permission-denied",
-      "Solo los clínicos pueden invitar pacientes."
+      "Solo los clínicos pueden invitar pacientes.",
     );
   }
 
@@ -24,10 +24,7 @@ export const invitePatient = onCall(async (request) => {
   const clinicianId: string = request.auth.uid;
 
   if (!patientEmail) {
-    throw new HttpsError(
-      "invalid-argument",
-      "El email es requerido."
-    );
+    throw new HttpsError("invalid-argument", "El email es requerido.");
   }
 
   try {
@@ -53,7 +50,7 @@ export const invitePatient = onCall(async (request) => {
     console.error("Error al invitar paciente:", error);
     throw new HttpsError(
       "not-found",
-      "No se encontró un paciente con ese correo."
+      "No se encontró un paciente con ese correo.",
     );
   }
 });
@@ -63,7 +60,6 @@ export const invitePatient = onCall(async (request) => {
 // ==================================================================
 // Usamos onSchedule y renombramos 'event' a '_event'
 export const generateAlerts = onSchedule("every 24 hours", async (_event) => {
-  
   console.log("--- Empezando el cron job 'generateAlerts' (v2) ---");
 
   // 1. Obtenemos TODOS los pacientes.
@@ -75,7 +71,7 @@ export const generateAlerts = onSchedule("every 24 hours", async (_event) => {
   // 2. Iterar sobre cada paciente
   for (const patientDoc of patientsSnapshot.docs) {
     const patient = patientDoc.data();
-    
+
     // 3. Obtener los últimos 3 registros de sueño
     const logsSnapshot = await db
       .collection("sleepLogs")
@@ -97,14 +93,16 @@ export const generateAlerts = onSchedule("every 24 hours", async (_event) => {
     if (allLowQuality) {
       if (patient.clinicianId) {
         await db.collection("alerts").add({
-          clinicianId: patient.clinicianId, 
+          clinicianId: patient.clinicianId,
           patientId: patientDoc.id,
           patientEmail: patient.email,
           alertType: "Baja calidad de sueño persistente",
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
           isViewed: false,
         });
-        console.log(`ALERTA (para Clínico) generada para paciente ${patientDoc.id}`);
+        console.log(
+          `ALERTA (para Clínico) generada para paciente ${patientDoc.id}`,
+        );
       } else {
         await db.collection("alerts").add({
           clinicianId: null,
@@ -114,11 +112,13 @@ export const generateAlerts = onSchedule("every 24 hours", async (_event) => {
           createdAt: admin.firestore.FieldValue.serverTimestamp(),
           isViewed: false,
         });
-        console.log(`ALERTA (para Paciente) generada para paciente ${patientDoc.id}`);
+        console.log(
+          `ALERTA (para Paciente) generada para paciente ${patientDoc.id}`,
+        );
       }
     }
   }
-  
+
   console.log("--- Cron job 'generateAlerts' (v2) terminado ---");
   return; // En v2, onSchedule espera 'void' o 'Promise<void>'
 });

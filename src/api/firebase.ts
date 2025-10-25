@@ -12,9 +12,8 @@ const firebaseConfig = {
   storageBucket: "suenamas-89e43.firebasestorage.app",
   messagingSenderId: "457687591873",
   appId: "1:457687591873:web:297eb715ecfb4d5d8f9d40",
-  measurementId: "G-3FGMDJXY2J"
+  measurementId: "G-3FGMDJXY2J",
 };
-
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
