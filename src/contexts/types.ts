@@ -1,9 +1,9 @@
 // src/contexts/types.ts
-import type { User } from 'firebase/auth';
+import type { User } from "firebase/auth";
 
 export interface AuthContextType {
   currentUser: User | null;
-  userRole: 'patient' | 'clinician' | null;
+  userRole: "patient" | "clinician" | null;
   loading: boolean;
 }
 
